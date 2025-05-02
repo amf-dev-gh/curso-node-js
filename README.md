@@ -2,6 +2,8 @@
 
 Clases practicas de Node JS del curso dictado por midudev
 
+Node Js es mono hilo, esta basado en eventos. Trabaja de forma sincrona y asincrona.
+
 Intalaador para manejar varias versiones de Node
 
 nvm-windows.
