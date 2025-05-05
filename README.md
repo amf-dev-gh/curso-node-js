@@ -57,3 +57,9 @@ Se puede añadir a los scripts del package.json como se ejecuta el servidor
 y se ejecuta con NPM
 
 npm run dev -> Esto ejecuta el script de dev
+
+Express, Es un Framework de Node, que permite hacer aplicaciones web, apis, y es utilizado por otros frameworks
+
+Para instalar (como dependencia de produccion)
+
+npm install express -E

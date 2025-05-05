@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon 1.http.js",
     "routing": "nodemon 2.routing.js",
+    "express": "nodemon 3.express.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,5 +19,8 @@
   },
   "eslintConfig": {
     "extends": "standard"
+  },
+  "dependencies": {
+    "express": "5.1.0"
   }
 }
