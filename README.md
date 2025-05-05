@@ -39,3 +39,21 @@ Estas se llaman dependencias de desarrollo.
 
 npm i <nombre-de-la-dependencia> -D ---> Instala una dependencia pero como dependencia de desarrollo
 
+Para pasar una variable de entorno al momento de ejecutar un archivo se puede pasar en WINDOWS con 'set'
+
+set PORT=1234 && node 09-http.js
+
+Para levantar un servidor y ver los cambios automaticamente sin tener que cerrarlo y volverlo a ejecutar
+
+node --watch <archio.js>
+
+Se puede añadir a los scripts del package.json como se ejecuta el servidor
+
+"scripts": {
+  "dev": "node --watch 1.http.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
+
+y se ejecuta con NPM
+
+npm run dev -> Esto ejecuta el script de dev
