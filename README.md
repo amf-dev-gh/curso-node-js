@@ -19,3 +19,15 @@ nvm uninstall <version>      : The version must be a specific version.
 nvm upgrade                  : Update nvm to the latest version. Manual rollback available for 7 days after upgrade. "newest" is the latest installed version. Optionally specify 32/64bit architecture. nvm use <arch> will continue using the selected version, but switch to 32/64 bit mode.
 nvm reinstall <version>      : A shortcut method to clean and reinstall a specific version.
 nvm [--]version              : Displays the current running version of nvm for Windows. Aliased as v.
+
+## NPM
+
+Node Package Manager
+
+Es el administrador de paquetes de Node que viene integrado. (Es tanto un administrador como una linea de comandos)
+
+Comandos básicos
+npm --version ---> Versin de npm instalada
+npm init ---> Iniciar un proyecto de node ( crear el package.json paso a paso rellenando los campos solicitados)
+npm init -y ---> Iniciar un proyecto de node por defecto.
+npm install <nombre-de-la-dependencia> ---> Instalar depenedencias en el proyecto ( en vez de install puede poner solo 'i')
