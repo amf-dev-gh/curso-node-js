@@ -6,19 +6,33 @@ const app = express()
 // Recomendable quitar eliminar el header con la tecnologia utilizada( express ) Para evitar bulnerabilidades
 app.disable('x-powered-by')
 
-app.get('/pokemon/ditto', (req, res) => {
-  res.json(dataJson)
-})
+// Se puede pasar como parametrop que rutas deseas que pasen por middlewqare
+// app.use('/api/**', (req, res, next) => {}
+app.use((req, res, next) => {
+  // tracking a bbdd, controlar cookies, autorizar. Tratar la request
+  if (req.method !== 'POST') return next()
+  if (req.headers['content-type'] !== 'application/json') return next()
 
-app.post('/pokemon', (req, res) => {
   let body = ''
   req.on('data', chunk => {
     body += chunk.toString()
   })
   req.on('end', () => {
     const data = JSON.parse(body)
-    res.status(201).json(data)
+    req.body = data
+    next()
   })
+})
+
+// Forma simplificada del middleware anterior
+// app.use(express.jsoon())
+
+app.get('/pokemon/ditto', (req, res) => {
+  res.json(dataJson)
+})
+
+app.post('/pokemon', (req, res) => {
+  res.status(201).json(req.body)
 })
 
 app.use((req, res) => {
