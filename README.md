@@ -27,7 +27,15 @@ Node Package Manager
 Es el administrador de paquetes de Node que viene integrado. (Es tanto un administrador como una linea de comandos)
 
 Comandos básicos
+
 npm --version ---> Versin de npm instalada
 npm init ---> Iniciar un proyecto de node ( crear el package.json paso a paso rellenando los campos solicitados)
 npm init -y ---> Iniciar un proyecto de node por defecto.
 npm install <nombre-de-la-dependencia> ---> Instalar depenedencias en el proyecto ( en vez de install puede poner solo 'i')
+npm uninstall <nombre-de-la-dependencia> ---> Desinstalar depenedencias en el proyecto
+
+Existen dependencias que son utilidades que no necesita el proyecto para funcionar, pero que si siven para crearlo.
+Estas se llaman dependencias de desarrollo.
+
+npm i <nombre-de-la-dependencia> -D ---> Instala una dependencia pero como dependencia de desarrollo
+
