@@ -37,18 +37,23 @@ _Comandos básicos_
 Existen dependencias que son utilidades que no necesita el proyecto para funcionar, pero que si siven para crearlo.
 Estas se llaman dependencias de desarrollo.
 
-- npm i <nombre-de-la-dependencia> -D ---> Instala una dependencia pero como dependencia de desarrollo
+```
+npm i <nombre-de-la-dependencia> -D
+```
+Instala una dependencia pero como dependencia de desarrollo
 
 Para pasar una variable de entorno al momento de ejecutar un archivo se puede pasar en WINDOWS con 'set'
 
-- set PORT=1234 && node 09-http.js
+```
+set PORT=1234 && node 09-http.js
+```
 
 Para levantar un servidor y ver los cambios automaticamente sin tener que cerrarlo y volverlo a ejecutar
 
-- node --watch <archio.js>
-
+```
+node --watch <archio.js>
+```
 Se puede añadir a los scripts del package.json como se ejecuta el servidor
-
 ```
 "scripts": {
   "dev": "node --watch 1.http.js",
@@ -57,14 +62,17 @@ Se puede añadir a los scripts del package.json como se ejecuta el servidor
 ```
 
 y se ejecuta con NPM
-
-- npm run dev -> Esto ejecuta el script de dev
+```
+npm run dev -> Esto ejecuta el script de dev
+```
 
 ## **Express**, Es un Framework de Node, que permite hacer aplicaciones web, apis, y es utilizado por otros frameworks
 
-Para instalar (como dependencia de produccion)
+Para instalar (como dependencia de produccion y version exacta <sin el ^>)
 
-- npm install express -E
+```
+npm install express -E
+```
 
 ### Los _*Middleware*_ son interceptores que tratan las request hechas a la api y hacen validaciones, ejecutan algo antes de continuar con la respuesta, confirmandolo con next()
 
@@ -101,3 +109,29 @@ GET, POST, PUT, PATCH, DELETE...
 **Stateless**
 - Cada solicitud debe contener la info necesaria para entender la solicitud. No debe mantener informacion en el servidor.
 (El cliente debe enviar toda la info necesaria para procesar la petición)
+
+### Para Validaciones se utilizará **ZOD**
+
+```
+npm install zod -E
+```
+
+Forma de validar Ej.:
+
+```
+const z = require('zod')
+
+const user = z.object({
+  name: z.string({
+    invalid_type_error: 'Name must be string',
+    required_error: 'Name is required'
+  }),
+  secondName: z.string().default('')
+  age: z.number().int().positive().min(0).max(120),
+  role: z.array(z.enum(['ADMIN','USER']),
+    {
+      required_error: 'Role is required',
+      invalid_type_error: 'Role must be an array of enum Roles'
+    })
+})
+```
