@@ -1,7 +1,10 @@
 const express = require('express')
+const crypto = require('node:crypto')
 const moviesJSON = require('./movies.json')
+const { validateMovie } = require('./schemas/movies')
 
 const app = express()
+app.use(express.json())
 app.disable('x-powered-by')
 
 // URL base -------------
@@ -25,6 +28,24 @@ app.get('/movies/:id', (req, res) => {
   const movie = moviesJSON.find(movie => movie.id === id)
   if(movie) return res.json(movie)
   res.status(404).json({message: "Movie id not found"})
+})
+
+// Crear una pelicula
+app.post('/movies', (req, res) => {
+  const result = validateMovie(req.body)
+
+  if (result.error) {
+    return res.status(422).json({ error: JSON.parse(result.error.message) })
+  }
+
+  const newMovie = {
+    id: crypto.randomUUID(),
+    ...result.data
+  }
+
+  // Esto no es REST porque guarda el estado en memoria !!! <---
+  moviesJSON.push(newMovie)
+  res.status(201).json(newMovie)
 })
 
 // ------------------------------------INICIO DE API ---------------------------------------------

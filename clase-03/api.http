@@ -6,3 +6,21 @@ GET http://localhost:1234/movies/5ad1a235-0d9c-410a-b32b-220d91689a08
 
 ### Recuperar todas las peliculas por un género
 GET http://localhost:1234/movies?genre=crime
+
+### Crear una pelicula
+POST http://localhost:1234/movies
+Content-Type: application/json
+
+{
+  "title": "The Dark Knight",
+  "year": 2008,
+  "director": "Christopher Nolan",
+  "duration": 152,
+  "poster": "https://i.ebayimg.com/images/g/yokAAOSw8w1YARbm/s-l1200.jpg",
+  "genre": [
+    "Action",
+    "Crime",
+    "Drama"
+  ]
+}
+
