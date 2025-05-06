@@ -181,3 +181,33 @@ const cors = require('cors')
 app.use(cors())
 ```
 Recibe parametros configurables **
+
+## MVC (Modelo Vista Controlador)
+
+Es un patrón de arquitectura que separa la aplicacion en estos 3 grupos
+- MODELO -> **Lógica de negocio**, estructura de datos, comprobar integridad de los datod (ej. bases de datos)
+- CONTROLADOR -> **Intermiediario** entre la vista y el modelo. Orquesta las solicitudes y delega al modelo
+- VISTA -> **Interactuar** con el cliente. (Interfaz de usuario) json, html, xml
+
+VISTA <=> CONTROLADOR <=> MODELO
+
+### Instalar Eslint en un proyecto para ver errores en desarrollo
+
+```
+npm i standard -D
+```
+
+En el package.json agregar
+
+```
+"devDependencies": {
+  "standard": "17.1.2"
+},
+"eslintConfig": {
+  "extends": "standard"
+}
+```
+
+**Repo Original de Midudev**
+
+💾 [curso-node-js](https://github.com/midudev/curso-node-js)
