@@ -23,6 +23,12 @@ function validateMovie (object) {
   return movieSchema.safeParse(object)
 }
 
+function validateParcialMovie(object){
+  // El partial() hace que todas los atributos sean opcionales. Pero si se los pasa los valida
+  return movieSchema.partial().safeParse(object)
+}
+
 module.exports = {
+  validateParcialMovie,
   validateMovie
 }

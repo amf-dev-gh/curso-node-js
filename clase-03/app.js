@@ -1,7 +1,7 @@
 const express = require('express')
 const crypto = require('node:crypto')
 const moviesJSON = require('./movies.json')
-const { validateMovie } = require('./schemas/movies')
+const { validateMovie, validateParcialMovie } = require('./schemas/movies')
 
 const app = express()
 app.use(express.json())
@@ -30,7 +30,7 @@ app.get('/movies/:id', (req, res) => {
   res.status(404).json({message: "Movie id not found"})
 })
 
-// Crear una pelicula
+// Crear una pelicula -----------
 app.post('/movies', (req, res) => {
   const result = validateMovie(req.body)
 
@@ -46,6 +46,24 @@ app.post('/movies', (req, res) => {
   // Esto no es REST porque guarda el estado en memoria !!! <---
   moviesJSON.push(newMovie)
   res.status(201).json(newMovie)
+})
+
+// Actualizar una pelicula -----------
+app.patch('/movies/:id', (req, res) => {
+  const result = validateParcialMovie(req.body)
+  if (!result.success) return res.status(422).json({ error: JSON.parse(result.error.message) })
+    
+  const { id } = req.params
+  const movieIndex = moviesJSON.findIndex(movie => movie.id === id)
+  if (movieIndex < 0) return res.status(404).json({message: "Movie id not found"})
+
+  const updateMovie = {
+    ... moviesJSON[movieIndex],
+    ... result.data
+  }
+
+  moviesJSON[movieIndex] = updateMovie
+  return res.json(updateMovie)
 })
 
 // ------------------------------------INICIO DE API ---------------------------------------------
