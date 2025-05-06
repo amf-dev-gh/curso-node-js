@@ -141,3 +141,43 @@ const user = z.object({
     })
 })
 ```
+
+### El CORS (Cross Origin Resource Sharing)
+
+Mecanismo que solo funciona en los navegadores.
+Este mecanismo de seguridad web, permite a un servidor web indicar a un navegador que una solicitud de un origen (dominio, esquema, puerto) diferente puede ser permitida
+
+Para permitir el acceso desde cualquier origen se utiliza el *. Pero de puede colocar la URL que se quiere autorizar
+```
+res.header('Access-Control-Allow-Origin', '*')
+```
+
+El CORS no actua de igual manera con todos los metodos
+*Metodos "Normales"*: GET,HEAD y POST
+*Metodos "Complejos"*: PUT, PATCH y DELETE
+
+Para los metodos complejos el CORS utilica CORS Pre-Flight (Hace una petición previa con el metodo OPTIONS). Entonces hay que agregar a este metodo el mecanismo
+```
+app.options('/users/....', (req, res) => {
+  const origin = req.header('origin')
+  if(ACCEPTED_ORIGINS.includes(origin) || !origin) {
+    res.header('Access-Control-Allow-Origin', origin)
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE')
+  }
+  res.send(200)
+})
+```
+
+Forma de habilitar CORS solo con una depednencia. **Pero hace que sea abierta a cualquier origen*
+
+```
+npm install cors -E
+```
+
+y en el proyecto solo se importa y se utiliza en la app
+```
+const cors = require('cors')
+
+app.use(cors())
+```
+Recibe parametros configurables **
