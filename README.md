@@ -74,3 +74,30 @@ app.use((req, res, next) => {
   next()
 })
 ```
+
+## Las _REST API_
+
+Es una arquitectura de software. (Representation State Transfer)
+
+**Principios fundamentales:**
+- Escalabilidad
+- Simplicidad
+- Portabilidad
+- Fiabilidad
+- Visibilidad
+- Facil de mantener/modificar
+
+**Recursos (Resources)**
+- Puede ser un usuario, una lista de usuarios, de productos, etc.
+Cada recurso de identifica con una **URL**
+
+**Vervos HTTP**
+- Sirven para definir las operaciones que se pueden realizar con los recursos. El *CRUD* (Create, Read, Update, Delete)
+GET, POST, PUT, PATCH, DELETE...
+
+**Representaciones**
+- El cliente debería decidir la representacion del recurso (JSON, XML, HTML, etc.)
+
+**Stateless**
+- Cada solicitud debe contener la info necesaria para entender la solicitud. No debe mantener informacion en el servidor.
+(El cliente debe enviar toda la info necesaria para procesar la petición)
