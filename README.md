@@ -103,6 +103,12 @@ Cada recurso de identifica con una **URL**
 - Sirven para definir las operaciones que se pueden realizar con los recursos. El *CRUD* (Create, Read, Update, Delete)
 GET, POST, PUT, PATCH, DELETE...
 
+**Diferencias entre POST, PUT, PATCH*
+- POST: Crear un nuevo recurso en el servidor (/user)
+- PUT: Actualizar totalmente un resurso existente o crearlo si no existe (/user/123-abc)
+- PATCH: Actualizar un resucrso parcialmente (/user/123-abc)
+
+
 **Representaciones**
 - El cliente debería decidir la representacion del recurso (JSON, XML, HTML, etc.)
 
