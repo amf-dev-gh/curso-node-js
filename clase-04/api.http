@@ -2,7 +2,7 @@
 GET http://localhost:1234/movies
 
 ### Recuperar una pelicula por ID
-GET http://localhost:1234/movies/5ad1a235-0d9c-410a-b32b-220d91689a08
+GET http://localhost:1234/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
 
 ### Recuperar todas las peliculas por un género
 GET http://localhost:1234/movies?genre=crime
@@ -12,14 +12,12 @@ POST http://localhost:1234/movies
 Content-Type: application/json
 
 {
-  "title": "The Dark Knight",
-  "year": 2008,
-  "director": "Christopher Nolan",
-  "duration": 152,
-  "poster": "https://i.ebayimg.com/images/g/yokAAOSw8w1YARbm/s-l1200.jpg",
+  "title": "Million Dollar Baby",
+  "year": 2004,
+  "director": "Clint Eastwood",
+  "duration": 132,
+  "poster": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Maggie%27_boxing_gloves_%28Million_dollar_baby%29_Warner_Bros._Studio_Tour_Hollywood.jpg",
   "genre": [
-    "Action",
-    "Crime",
     "Drama"
   ]
 }
@@ -29,6 +27,9 @@ PATCH http://localhost:1234/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
 Content-Type: application/json
 
 {
-  "title": "Nuevo titulo",
-  "year": 1993
+  "title": "Cadena perpetua",
+  "year": 1995
 }
+
+### Eliminar una película por su ID
+DELETE http://localhost:1234/movies/c8a7d63f-3b04-44d3-9d95-8782fd7dcfaf
