@@ -208,6 +208,35 @@ En el package.json agregar
 }
 ```
 
+### Instalar y comectar MySQL
+
+Instalar la dependencia de 'mysql2' (recomendada y mas actualizada)
+```
+npm install --save mysql2
+```
+
+**Crear conexión**
+```
+import mysql from 'mysql2/promise'
+
+const config = {
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: 'mi-contraseña',
+  database: 'mi-base-de-datos'
+}
+
+const connection = await mysql.createConnection(config)
+```
+
+**Hacer consultas EJ:**
+```
+const [data, tableInfo] = await connection.query('SELECT * FROM table-name;')
+console.log(data)
+```
+
+---
 **Repo Original de Midudev**
 
 💾 [curso-node-js](https://github.com/midudev/curso-node-js)
