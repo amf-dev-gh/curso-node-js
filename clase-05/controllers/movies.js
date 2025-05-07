@@ -1,4 +1,5 @@
-import { MovieModel } from '../models/local-file-system/movie.js'
+// import { MovieModel } from '../models/local-file-system/movie.js' // --> Esto se utilizaba para obtener la info de JSON
+import { MovieModel } from '../models/mysql/movie.js'
 import { validateMovie, validateParcialMovie } from '../schemas/movies.js'
 
 export class MovieController {
