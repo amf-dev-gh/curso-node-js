@@ -5,7 +5,7 @@ const movieSchema = z.object({
     invalid_type_error: 'Movie title must be string',
     required_error: 'Movie title is required'
   }),
-  year: z.number().int().positive().min(1900).max(2024),
+  year: z.number().int().positive().min(1900).max(new Date().getFullYear()),
   director: z.string(),
   duration: z.number().int().positive(),
   rate: z.number().min(0).max(10).default(3),
