@@ -208,7 +208,7 @@ En el package.json agregar
 }
 ```
 
-### Instalar y comectar MySQL
+### Instalar y conectar MySQL
 
 Instalar la dependencia de 'mysql2' (recomendada y mas actualizada)
 ```
@@ -234,6 +234,28 @@ const connection = await mysql.createConnection(config)
 ```javascript
 const [data, tableInfo] = await connection.query('SELECT * FROM table-name;')
 console.log(data)
+```
+
+## Instalar y conectar MySQL (con dependecia libsql)
+
+Instalar dependencia @libsql y dotenv para las variables de entorno 
+(crear el archivo .env en la base del proyecto con las variables EJ: DB_TOKEN="eyasdffaslkfm....")
+```
+npm install @libsql/client dotenv
+```
+
+Importar, crear la conexión, y crear una tabla a modo de ejemplo.
+```javascript
+import dotenv from 'dotenv'
+import { createClient } from '@libsql/client'
+dotenv.config()
+
+const db = createClient({
+  url: 'libsql://elegant-huntara-andres94dev.aws-eu-west-1.turso.io',
+  authToken: process.env.DB_TOKEN
+})
+
+await db.execute('CREATE TABLE IF NOT EXISTS table-name (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT);')
 ```
 
 ## Protocolos
