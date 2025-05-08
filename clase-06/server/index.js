@@ -5,6 +5,7 @@ import { createServer } from 'node:http'
 import dotenv from 'dotenv'
 import { createClient } from '@libsql/client'
 
+dotenv.config()
 const PORT = process.env.PORT ?? 3000
 
 const app = express()
@@ -18,13 +19,25 @@ const db = createClient({
   authToken: process.env.DB_TOKEN
 })
 
+await db.execute('CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT);')
+
 io.on('connection', (socket) => {
   console.log('A user has connected!')
   socket.on('disconnect', () => {
     console.log('User disconnected')
   })
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg)
+  socket.on('chat message', async (msg) => {
+    let result
+    try {
+      result = await db.execute({
+        sql: 'INSERT INTO messages (content) VALUES (:content)',
+        args: { content: msg }
+      })
+    } catch (error) {
+      console.error(error)
+      return
+    }
+    io.emit('chat message', msg, result.lastInsertRowid.toString())
   })
 })
 
