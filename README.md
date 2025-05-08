@@ -54,11 +54,11 @@ Para levantar un servidor y ver los cambios automaticamente sin tener que cerrar
 node --watch <archio.js>
 ```
 Se puede añadir a los scripts del package.json como se ejecuta el servidor
-```
+```json
 "scripts": {
   "dev": "node --watch 1.http.js",
   "test": "echo \"Error: no test specified\" && exit 1"
-},
+}
 ```
 
 y se ejecuta con NPM
@@ -76,7 +76,7 @@ npm install express -E
 
 ### Los _*Middleware*_ son interceptores que tratan las request hechas a la api y hacen validaciones, ejecutan algo antes de continuar con la respuesta, confirmandolo con next()
 
-```
+```javascript
 app.use((req, res, next) => {
   console.log('Entro al middleware')
   next()
@@ -124,7 +124,7 @@ npm install zod -E
 
 Forma de validar Ej.:
 
-```
+```javascript
 const z = require('zod')
 
 const user = z.object({
@@ -148,7 +148,7 @@ Mecanismo que solo funciona en los navegadores.
 Este mecanismo de seguridad web, permite a un servidor web indicar a un navegador que una solicitud de un origen (dominio, esquema, puerto) diferente puede ser permitida
 
 Para permitir el acceso desde cualquier origen se utiliza el *. Pero de puede colocar la URL que se quiere autorizar
-```
+```javascript
 res.header('Access-Control-Allow-Origin', '*')
 ```
 
@@ -157,7 +157,7 @@ El CORS no actua de igual manera con todos los metodos
 *Metodos "Complejos"*: PUT, PATCH y DELETE
 
 Para los metodos complejos el CORS utilica CORS Pre-Flight (Hace una petición previa con el metodo OPTIONS). Entonces hay que agregar a este metodo el mecanismo
-```
+```javascript
 app.options('/users/....', (req, res) => {
   const origin = req.header('origin')
   if(ACCEPTED_ORIGINS.includes(origin) || !origin) {
@@ -175,7 +175,7 @@ npm install cors -E
 ```
 
 y en el proyecto solo se importa y se utiliza en la app
-```
+```javascript
 const cors = require('cors')
 
 app.use(cors())
@@ -199,7 +199,7 @@ npm i standard -D
 
 En el package.json agregar
 
-```
+```json
 "devDependencies": {
   "standard": "version"
 },
@@ -216,7 +216,7 @@ npm install --save mysql2
 ```
 
 **Crear conexión**
-```
+```javascript
 import mysql from 'mysql2/promise'
 
 const config = {
@@ -231,7 +231,7 @@ const connection = await mysql.createConnection(config)
 ```
 
 **Hacer consultas EJ:**
-```
+```javascript
 const [data, tableInfo] = await connection.query('SELECT * FROM table-name;')
 console.log(data)
 ```
@@ -246,6 +246,74 @@ Son un conjunto de normas, pautas o instrucciones que sirven para guiar las acci
 (Protocolos de comunicación que se basan en intercambio de mensajes entre un cliente y un servidor. Utilizan TCP como protocolo de transporte.
 la diferencia es que los web sockets lo pueden hacer en cualquier momento y http solo cuando se requiere)
 
+## Implementar Web Socket en el proyecto
+Instalación
+```
+npm install socket.io -E
+```
+
+Para crear el servidor base con socket.io
+```javascript
+import express from 'express'
+import { Server } from 'socket.io'
+import { createServer } from 'node:http'
+
+const PORT = process.env.PORT ?? 3000
+const app = express()
+const server = createServer(app)
+const io = new Server(server)
+
+io.on('connection', (socket) => {
+  console.log('A user has connected!')
+  socket.on('disconnect', () => {
+    console.log('User disconnected')
+  })
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg)
+  })
+})
+
+app.get('/', (req, res) => {
+  res.sendFile(process.cwd() + 'index.html')
+})
+
+server.listen(PORT, () => {
+  console.log(`App running on http://localhost:${PORT}`)
+})
+```
+*En vez de 'escuchar' a la app se crea el servidor a partir de ella y se escucha al servidor*
+
+En el cliente (HTML)
+```html
+<script type="module">
+  import { io } from 'https://cdn.socket.io/4.8.1/socket.io.esm.min.js'
+  const socket = io()
+
+  const form = document.getElementById('form')
+  const input = document.getElementById('message')
+  const messages = document.getElementById('messages')
+
+  socket.on('chat message', (msj) => {
+    const item = `<li>${msj}</li>`
+    messages.insertAdjacentHTML('beforeend', item)
+  })
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    if (input.value) {
+      socket.emit('chat message', input.value)
+      input.value = ''
+    }
+  })
+</script>
+```
+
+### Morgan
+
+Morgan es una herramienta (midelware) que sirve para generar logs de express para tener información de las request en tiempo real
+```
+npm install morgan -E
+```
 
 ---
 **Repo Original de Midudev**
