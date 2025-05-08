@@ -285,14 +285,43 @@ const app = express()
 const server = createServer(app)
 const io = new Server(server)
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   console.log('A user has connected!')
+  
   socket.on('disconnect', () => {
     console.log('User disconnected')
   })
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg)
+
+  socket.on('chat message', async (msg) => {
+    let result
+    const username = socket.handshake.auth.username ?? 'anonymus'
+    try {
+      result = await db.execute({
+        sql: 'INSERT INTO messages (content, user) VALUES (:msg, :username)',
+        args: { msg, username }
+      })
+    } catch (error) {
+      console.error(error)
+      return
+    }
+    io.emit('chat message', msg, result.lastInsertRowid.toString(), username)
   })
+
+  // console.log(socket.handshake.auth) ---> Aquí viene toda la información 
+
+  if (!socket.recovered) {
+    try {
+      const results = await db.execute({
+        sql: 'SELECT id, content, user FROM messages WHERE id > ?',
+        args: [socket.handshake.auth.serverOffset ?? 0]
+      })
+      results.rows.forEach(row => {
+        socket.emit('chat message', row.content, row.id.toString(), row.user)
+      })
+    } catch (error) {
+      console.log('Error gettin messages', error)
+    }
+  }
 })
 
 app.get('/', (req, res) => {
@@ -309,7 +338,14 @@ En el cliente (HTML)
 ```html
 <script type="module">
   import { io } from 'https://cdn.socket.io/4.8.1/socket.io.esm.min.js'
-  const socket = io()
+
+  const socket = io({
+  auth: {
+    token: '<token>',
+    username: '<nombre-usuario',
+    serverOffset: 0
+    }
+  })
 
   const form = document.getElementById('form')
   const input = document.getElementById('message')
