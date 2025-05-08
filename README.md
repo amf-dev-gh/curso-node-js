@@ -201,7 +201,7 @@ En el package.json agregar
 
 ```
 "devDependencies": {
-  "standard": "17.1.2"
+  "standard": "version"
 },
 "eslintConfig": {
   "extends": "standard"
@@ -235,6 +235,17 @@ const connection = await mysql.createConnection(config)
 const [data, tableInfo] = await connection.query('SELECT * FROM table-name;')
 console.log(data)
 ```
+
+## Protocolos
+
+Son un conjunto de normas, pautas o instrucciones que sirven para guiar las acciones durante el intercambio de información
+
+- HTTP -> Son Stateless (cacheable). Se usa normalmente para recursos, api rest (unidireccional)
+- Web Sockets -> Son statefull (no cacheable). Se usa para trasnportar informacion con poca latencia, realtime (bidireccional)
+
+(Protocolos de comunicación que se basan en intercambio de mensajes entre un cliente y un servidor. Utilizan TCP como protocolo de transporte.
+la diferencia es que los web sockets lo pueden hacer en cualquier momento y http solo cuando se requiere)
+
 
 ---
 **Repo Original de Midudev**
