@@ -11,11 +11,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "db-local": "^3.1.0",
+    "bcrypt": "5.1.1",
+    "db-local": "3.1.0",
     "standard": "17.1.2"
   },
   "devDependencies": {
-    "express": "^5.1.0",
+    "express": "5.1.0",
     "standard": "17.1.2"
   },
   "eslintConfig": {
