@@ -20,9 +20,7 @@ Descargar ejecutable e instalar.
 - nvm reinstall <version>      : A shortcut method to clean and reinstall a specific version.
 - nvm [--]version              : Displays the current running version of nvm for Windows. Aliased as v.
 
-### NPM
-
-Node Package Manager
+## NPM (Node Package Manager)
 
 Es el administrador de paquetes de Node que viene integrado. (Es tanto un administrador como una linea de comandos)
 
@@ -33,6 +31,7 @@ _Comandos básicos_
 - npm init -y ---> Iniciar un proyecto de node por defecto.
 - npm install <nombre-de-la-dependencia> ---> Instalar depenedencias en el proyecto ( en vez de install puede poner solo 'i')
 - npm uninstall <nombre-de-la-dependencia> ---> Desinstalar depenedencias en el proyecto
+- Si se agrega el -E al final instala la ultima versión exacta (como dependencia de produccion y sin el ^)
 
 Existen dependencias que son utilidades que no necesita el proyecto para funcionar, pero que si siven para crearlo.
 Estas se llaman dependencias de desarrollo.
@@ -68,10 +67,9 @@ npm run dev -> Esto ejecuta el script de dev
 
 ## **Express**, Es un Framework de Node, que permite hacer aplicaciones web, apis, y es utilizado por otros frameworks
 
-Para instalar (como dependencia de produccion y version exacta <sin el ^>)
-
+**Para instalar dependencia**
 ```
-npm install express -E
+npm install express
 ```
 
 ### Los _*Middleware*_ son interceptores que tratan las request hechas a la api y hacen validaciones, ejecutan algo antes de continuar con la respuesta, confirmandolo con next()
@@ -83,7 +81,7 @@ app.use((req, res, next) => {
 })
 ```
 
-## Las _REST API_
+## ↕️ Las _REST API_
 
 Es una arquitectura de software. (Representation State Transfer)
 
@@ -116,10 +114,10 @@ GET, POST, PUT, PATCH, DELETE...
 - Cada solicitud debe contener la info necesaria para entender la solicitud. No debe mantener informacion en el servidor.
 (El cliente debe enviar toda la info necesaria para procesar la petición)
 
-### Para Validaciones se utilizará **ZOD**
+## ✅ Para Validaciones se utilizará **ZOD**
 
 ```
-npm install zod -E
+npm install zod
 ```
 
 Forma de validar Ej.:
@@ -142,7 +140,7 @@ const user = z.object({
 })
 ```
 
-### El CORS (Cross Origin Resource Sharing)
+## ⛔ El CORS (Cross Origin Resource Sharing)
 
 Mecanismo que solo funciona en los navegadores.
 Este mecanismo de seguridad web, permite a un servidor web indicar a un navegador que una solicitud de un origen (dominio, esquema, puerto) diferente puede ser permitida
@@ -171,7 +169,7 @@ app.options('/users/....', (req, res) => {
 Forma de habilitar CORS solo con una depednencia. **Pero hace que sea abierta a cualquier origen*
 
 ```
-npm install cors -E
+npm install cors
 ```
 
 y en el proyecto solo se importa y se utiliza en la app
@@ -182,7 +180,7 @@ app.use(cors())
 ```
 Recibe parametros configurables **
 
-## MVC (Modelo Vista Controlador)
+## 🏗️ MVC (Modelo Vista Controlador)
 
 Es un patrón de arquitectura que separa la aplicacion en estos 3 grupos
 - MODELO -> **Lógica de negocio**, estructura de datos, comprobar integridad de los datod (ej. bases de datos)
@@ -191,7 +189,7 @@ Es un patrón de arquitectura que separa la aplicacion en estos 3 grupos
 
 VISTA <=> CONTROLADOR <=> MODELO
 
-### Instalar Eslint en un proyecto para ver errores en desarrollo
+## ✨ Instalar Eslint en un proyecto para ver errores en desarrollo
 
 ```
 npm i standard -D
@@ -208,7 +206,7 @@ En el package.json agregar
 }
 ```
 
-### Instalar y conectar MySQL
+## 🗂️ Instalar y conectar MySQL
 
 Instalar la dependencia de 'mysql2' (recomendada y mas actualizada)
 ```
@@ -236,7 +234,7 @@ const [data, tableInfo] = await connection.query('SELECT * FROM table-name;')
 console.log(data)
 ```
 
-## Instalar y conectar MySQL (con dependecia libsql)
+## 🗂️ Instalar y conectar MySQL (con dependecia libsql)
 
 Instalar dependencia @libsql y dotenv para las variables de entorno 
 (crear el archivo .env en la base del proyecto con las variables EJ: DB_TOKEN="eyasdffaslkfm....")
@@ -258,7 +256,7 @@ const db = createClient({
 await db.execute('CREATE TABLE IF NOT EXISTS table-name (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT);')
 ```
 
-## Protocolos
+## 🛜 Protocolos
 
 Son un conjunto de normas, pautas o instrucciones que sirven para guiar las acciones durante el intercambio de información
 
@@ -268,10 +266,10 @@ Son un conjunto de normas, pautas o instrucciones que sirven para guiar las acci
 (Protocolos de comunicación que se basan en intercambio de mensajes entre un cliente y un servidor. Utilizan TCP como protocolo de transporte.
 la diferencia es que los web sockets lo pueden hacer en cualquier momento y http solo cuando se requiere)
 
-## Implementar Web Socket en el proyecto
+## 💬 Implementar Web Socket en el proyecto
 Instalación
 ```
-npm install socket.io -E
+npm install socket.io
 ```
 
 Para crear el servidor base con socket.io
@@ -366,14 +364,66 @@ En el cliente (HTML)
 </script>
 ```
 
-### Morgan
+### ℹ️ Morgan
 
 Morgan es una herramienta (midelware) que sirve para generar logs de express para tener información de las request en tiempo real
 ```
-npm install morgan -E
+npm install morgan
+```
+
+## 🔒 Autenticación con JSON Web Token (JWT)
+Son como un "ticket de acceso" digital que contiene información en formato JSON y está firmado digitalmente, garantizando su integridad y autenticidad.
+
+**Istalar dependencia en el proyecto**
+```
+npm install jsonwebtoken
+```
+
+**Para generar un token**
+```javascript
+import jwt from 'jsonwebtoken'
+
+const token = jwt.sign({ id: user._id, username: user.username }, 'clave-segura-secreta', { expiresIn: '1h' })
+```
+*En el primer parametro se le pasan los datos o informacion que llevará el JWT encriptada.
+
+*En el segundo parametro la clave secreta que usara para codificar y decodificar los tokens.
+
+*En el tercer patrámetro el tiempo que sera válido el token antes de que deje de funcionar.
+
+**Para obtener la información de un token**
+```javascript
+const data = jwt.verify(token, 'clave-segura-secreta')
+```
+*Si el token es correcto la información que se obtiene es la misma que se le pasa cuando se crea ( en este caso { id, username })
+
+## 🍪 Manejo de Cookies
+Es un midelware de express para transportar informacion entre el cliente y el servidor
+
+**Istalar dependencia en el proyecto**
+```
+npm install cookie-parser
+```
+
+**Enviar la cookie en la response del servidor**
+```javascript
+res.cookie(
+      'access_token', // Nombre de la cookie
+      token, // Información que lleva
+      { //CONFIGURACIÓN DE LA COOKIE
+        httpOnly: true, // Solo se puede acceder a la cookie desde el servidor, no desde el cliente(js, navegador)
+        secure: process.env.NODE_ENV === 'production', // Solo se pùede acceder a la cookie en https
+        sameSite: 'strict', // Solo se pùede acceder a la cookie desde el mismo dominio
+        maxAge: 1000 * 60 * 60 // Tiempo de expiración de la cookie
+      })
+    .send({ user })
+```
+*Solo se envia si la ruta necesita estrictamente la data para funcionar
+
+**Borrar las cookies**
+```javascript
+res.clearCookie('access_token').json({ message: 'OK' })
 ```
 
 ---
-**Repo Original de Midudev**
-
-💾 [curso-node-js](https://github.com/midudev/curso-node-js)
+_**Repo Original de Midudev**_ [curso-node-js](https://github.com/midudev/curso-node-js)
