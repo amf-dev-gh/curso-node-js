@@ -10,8 +10,16 @@ app.get('/', (req, res) => {
   res.send('<h1>Inicio de app para autenticar!</h1>')
 })
 
-app.post('/login', (req, res) => {
-  res.json({ user: 'amf-dev' })
+app.post('/login', async (req, res) => {
+  const result = validateUser(req.body)
+  if (result.error) return res.status(400).send({ error: JSON.parse(result.error.message) })
+  try {
+    const { username, password } = req.body
+    const user = await UserRepository.login({ username, password })
+    res.send({ user })
+  } catch (error) {
+    res.status(401).send(error.message)
+  }
 })
 
 app.post('/logout', (req, res) => {})
