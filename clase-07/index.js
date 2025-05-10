@@ -1,6 +1,7 @@
 import express from 'express'
 import { PORT } from './config.js'
 import { UserRepository } from './user-repository.js'
+import { validateUser } from './validations.js'
 
 const app = express()
 app.use(express.json())
@@ -16,8 +17,11 @@ app.post('/login', (req, res) => {
 app.post('/logout', (req, res) => {})
 
 app.post('/register', async (req, res) => {
-  const { username, password } = req.body
+  const result = validateUser(req.body)
+  if (result.error) return res.status(400).send({ error: JSON.parse(result.error.message) })
+
   try {
+    const { username, password } = req.body
     const id = await UserRepository.create({ username, password })
     res.send({ id })
   } catch (error) {

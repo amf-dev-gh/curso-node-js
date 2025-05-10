@@ -13,13 +13,6 @@ const User = Schema('User', {
 
 export class UserRepository {
   static async create ({ username, password }) {
-    // Validar los inputs. (Puede ser con zod)
-    if (typeof username !== 'string') throw new Error('El nombre de usuariuo debe ser un string')
-    if (username.length < 3) throw new Error('El nombre de usuario debe tener mas de 3 caracteres')
-
-    if (typeof password !== 'string') throw new Error('La contraseña debe ser un string')
-    if (password.length < 5) throw new Error('La contraseña debe tener mas de 5 caracteres')
-
     // Validar que el username no exista
     const user = User.findOne({ username })
     if (user) throw new Error('El nombre de usuario ya existe en la base de datos')
@@ -38,5 +31,3 @@ export class UserRepository {
 
   static async login ({ username, password }) {}
 }
-
-// function validate(input) {}
